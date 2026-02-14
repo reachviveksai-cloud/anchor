@@ -1,7 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './App.css'
 
 function App() {
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = "https://unpkg.com/atoms-widget-core@latest/dist/embed/widget.umd.js";
+    script.async = true;
+    script.onload = () => console.log("Smallest.ai Widget Loaded");
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   return (
     <div className="container">
       <main className="card">
@@ -40,6 +52,7 @@ function App() {
         </div>
       </footer>
 
+      <atoms-widget assistant-id="698ffdef8f1c0f4c8e267b5c"></atoms-widget>
     </div>
   )
 }
