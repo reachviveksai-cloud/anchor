@@ -22,7 +22,8 @@ function App() {
         <h2>Your Personal AI Literacy Mentor</h2>
         <p className="subtext">
           Don't let the future leave you behind. <br />
-          I am here to guide you from anxiety to AI fluency—one simple step at a time.<br />
+          I am here to guide you from anxiety to AI fluency <br />
+          one simple step at a time.<br />
           No judgment, just progress.
         </p>
         <p className="instruction"><strong>Click the "Start a call" button in the bottom right to begin.</strong></p>
