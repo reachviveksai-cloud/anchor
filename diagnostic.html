@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smallest.ai Diagnostic Test</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 40px;
+            background: #f0f2f5;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .status {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            font-family: monospace;
+            font-size: 12px;
+            height: 100px;
+            overflow-y: scroll;
+            background: #eee;
+        }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            background: #ccc;
+        }
+
+        .success {
+            background: #4caf50;
+        }
+
+        .failure {
+            background: #f44336;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>Smallest.ai Widget Diagnostic</h1>
+        <p>This page tests if the widget can load outside of your main application structure.</p>
+
+        <div>
+            <span id="script-indicator" class="indicator"></span> Script Loaded: <span
+                id="script-status">Checking...</span>
+        </div>
+        <div>
+            <span id="widget-indicator" class="indicator"></span> Widget Element: <span
+                id="widget-status">Checking...</span>
+        </div>
+
+        <div class="status" id="log">Initializing diagnostics...<br></div>
+    </div>
+
+    <!-- STANDALONE WIDGET EMBED -->
+    <script src="https://unpkg.com/atoms-widget-core@latest/dist/embed/widget.umd.js"
+        data-widget-id="698ffdef8f1c0f4c8e267b5c"></script>
+
+    <smallest-ai-widget widget-id="698ffdef8f1c0f4c8e267b5c"></smallest-ai-widget>
+
+    <script>
+        const log = document.getElementById('log');
+        function addLog(msg, color) {
+            log.innerHTML += `<span style="color:${color || 'black'}">${msg}</span><br>`;
+            log.scrollTop = log.scrollHeight;
+        }
+
+        window.addEventListener('load', () => {
+            const widget = document.querySelector('smallest-ai-widget');
+            const script = document.querySelector('script[src*="atoms-widget-core"]');
+
+            if (script) {
+                document.getElementById('script-indicator').classList.add('success');
+                document.getElementById('script-status').innerText = 'YES';
+                addLog('Success: Smallest.ai script found in DOM.', 'green');
+            } else {
+                document.getElementById('script-indicator').classList.add('failure');
+                document.getElementById('script-status').innerText = 'NO';
+                addLog('Error: Script NOT found!', 'red');
+            }
+
+            if (widget) {
+                document.getElementById('widget-indicator').classList.add('success');
+                document.getElementById('widget-status').innerText = 'YES';
+                addLog('Success: <smallest-ai-widget> element found.', 'green');
+
+                // Inspecting internal shadow DOM if possible
+                setTimeout(() => {
+                    if (widget.shadowRoot) {
+                        addLog('Info: Shadow Root detected.', 'blue');
+                    } else {
+                        addLog('Warning: No Shadow Root detected yet. This is normal if it is still initializing.', 'orange');
+                    }
+                }, 2000);
+            } else {
+                document.getElementById('widget-indicator').classList.add('failure');
+                document.getElementById('widget-status').innerText = 'NO';
+                addLog('Error: Widget element NOT found!', 'red');
+            }
+        });
+
+        window.addEventListener('error', (e) => {
+            addLog(`Global Error: ${e.message}`, 'red');
+        }, true);
+    </script>
+</body>
+
+</html>

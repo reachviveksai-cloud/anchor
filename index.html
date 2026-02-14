@@ -24,27 +24,10 @@
       right: 20px !important;
       z-index: 999999 !important;
       opacity: 1 !important;
+      min-width: 60px !important;
+      min-height: 60px !important;
     }
   </style>
-
-  <script>
-    // Fail-Safe Production Initialization
-    (function () {
-      function initWidget() {
-        const widget = document.querySelector('smallest-ai-widget');
-        if (widget) {
-          widget.setAttribute('widget-id', '698ffdef8f1c0f4c8e267b5c');
-        } else {
-          setTimeout(initWidget, 500);
-        }
-      }
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initWidget);
-      } else {
-        initWidget();
-      }
-    })();
-  </script>
 </head>
 
 <body>
@@ -52,7 +35,7 @@
 
   <script type="module" src="/src/main.jsx"></script>
 
-  <!-- The standard widget -->
+  <!-- High-Precision Embedded Widget -->
   <smallest-ai-widget widget-id="698ffdef8f1c0f4c8e267b5c"></smallest-ai-widget>
 </body>
 
