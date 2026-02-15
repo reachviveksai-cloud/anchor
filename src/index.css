@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 /* Clean slate for styles */
 body {
   margin: 0;

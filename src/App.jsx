@@ -1,8 +1,37 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './App.css'
 
 function App() {
+  const [sessionId] = useState(() => 'take-' + Date.now() + '-' + Math.random().toString(36).substring(2, 9));
+
   useEffect(() => {
+    // --- NUCLEAR SESSION RESET ---
+    const clearAllStorage = () => {
+      // Clear LocalStorage
+      Object.keys(localStorage).forEach(key => {
+        if (key.toLowerCase().includes('atoms') || key.toLowerCase().includes('smallest')) {
+          localStorage.removeItem(key);
+        }
+      });
+
+      // Clear SessionStorage
+      Object.keys(sessionStorage).forEach(key => {
+        if (key.toLowerCase().includes('atoms') || key.toLowerCase().includes('smallest')) {
+          sessionStorage.removeItem(key);
+        }
+      });
+
+      // Clear Cookies
+      document.cookie.split(";").forEach(cookie => {
+        const name = cookie.split("=")[0].trim();
+        if (name.toLowerCase().includes('atoms') || name.toLowerCase().includes('smallest')) {
+          document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+        }
+      });
+    };
+
+    clearAllStorage();
+
     const script = document.createElement('script');
     script.src = "https://unpkg.com/atoms-widget-core@latest/dist/embed/widget.umd.js";
     script.async = true;
@@ -20,16 +49,17 @@ function App() {
       <section className="section hero-section">
         <div className="container">
           <main className="card">
+            <div className="avatar pulsate">⚓</div>
             <span className="badge">Privacy First</span>
-            <h1>Meet Anchor</h1>
+            <h1>Hi, I'm Anchor.</h1>
             <h2 className="hero-subtitle">Your Personal AI Literacy Mentor</h2>
             <p className="subtext">
-              Don't let the future leave you behind. <br />
-              I am here to guide you from anxiety to AI fluency <br />
-              one simple step at a time.<br />
-              No judgment, just progress.
+              The future feels fast, but you don't have to face it alone. <br />
+              I am your safe space to ask 'stupid' questions, vent your fears, <br />
+              and build real confidence. Step by step. <br />
+              No judgment, just a friendly voice.
             </p>
-            <p className="instruction"><strong>Click the "Start a call" button in the bottom right to begin.</strong></p>
+            <p className="instruction"><strong>I'm listening. Tap the button below to say hello.</strong></p>
           </main>
         </div>
       </section>
@@ -38,11 +68,11 @@ function App() {
       <section className="section problem-section">
         <div className="container">
           <div className="pitch-content">
-            <h2 className="section-title">The AI Anxiety Gap</h2>
+            <h2 className="section-title">The Silent Panic</h2>
             <p className="section-text">
-              80% of the workforce knows they need to adopt AI, but 60% are too overwhelmed to start.
-              Traditional upskilling fails because it ignores the fear factor.
-              Employees are paralyzed by the <strong>'Fear of Obscurity.'</strong>
+              79% of leaders mandate AI adoption, yet 64% of the workforce is overwhelmed by the pace of change.
+              Traditional upskilling fails because it teaches the skill but ignores the will.
+              Anchor removes the 'Fear of Obsolescence' so real learning can begin.
             </p>
           </div>
         </div>
@@ -99,7 +129,12 @@ function App() {
         <a href="https://www.viveksai.co" target="_blank" rel="noopener noreferrer">www.viveksai.co</a>
       </footer>
 
-      <atoms-widget assistant-id="698ffdef8f1c0f4c8e267b5c"></atoms-widget>
+      <atoms-widget
+        assistant-id="698ffdef8f1c0f4c8e267b5c"
+        session-id={sessionId}
+        data-session-id={sessionId}
+        userId={sessionId}
+      ></atoms-widget>
     </div>
   )
 }
